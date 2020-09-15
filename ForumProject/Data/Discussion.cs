@@ -8,8 +8,10 @@ namespace ForumProject.Data
 {
     public class Discussion
     {
+        public int DiscussionId { get; set; }
         public User Author { get; set; }
-        public ICollection<Message> Messages { get; set; }
         public DateTime Created { get; set; }
+
+        public ICollection<Message> Messages { get; set; }
     }
 }

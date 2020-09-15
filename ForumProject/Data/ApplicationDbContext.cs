@@ -12,5 +12,7 @@ namespace ForumProject.Data
             : base(options)
         {
         }
+
+        public DbSet<Discussion> Discussions { get; set; }
     }
 }
