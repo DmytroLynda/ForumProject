@@ -13,10 +13,14 @@
     @foreach (var discussion in Model)
     {
         <div>
-            <div class=".col-12">@discussion.Author.UserName</div>
+            <div class=".col-12">@Html.Raw(discussion.Author.UserName)</div>
             <div class="col-12">
                 <p>
-                    @Html.Raw(discussion.Topic)
+                    <a asp-controller="Discussion"
+                       asp-action="Index"
+                       asp-route-id="@discussion.DiscussionId">
+                        @Html.Raw(discussion.Topic)
+                    </a>
                 </p>
             </div>
         </div>

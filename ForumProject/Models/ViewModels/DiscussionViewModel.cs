@@ -9,6 +9,7 @@ namespace ForumProject.Models.ViewModels
 {
     public class DiscussionViewModel
     {
+        public int DiscussionId { get; set; }
         [Required]
         public User Author { get; set; }
         [Required]
