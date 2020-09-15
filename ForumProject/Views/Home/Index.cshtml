@@ -1,4 +1,6 @@
-﻿@{
+﻿@using ForumProject.Data
+@model List<ForumProject.Models.ViewModels.DiscussionViewModel>
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -8,7 +10,19 @@
 
 <div class="container align-content-center message-color rounded">
     
-    @for (int i = 0; i < 20; i++)
+    @foreach (var discussion in Model)
+    {
+        <div>
+            <div class=".col-12">@discussion.Author.UserName</div>
+            <div class="col-12">
+                <p>
+                    @Html.Raw(discussion.Topic)
+                </p>
+            </div>
+        </div>
+    }
+
+    @*@for (int i = 0; i < 20; i++)
     {
     <div>
         <div class=".col-12">Creator User name and statistics</div>
@@ -18,6 +32,6 @@
             </p>
         </div>
     </div>
-    }
+    }*@
     
 </div>

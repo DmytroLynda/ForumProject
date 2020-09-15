@@ -3,24 +3,36 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using ForumProject.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using ForumProject.Models;
+using ForumProject.Models.ViewModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace ForumProject.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ApplicationDbContext _context;
+        private readonly IMapper _mapper;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context, IMapper mapper)
         {
             _logger = logger;
+            _context = context;
+            _mapper = mapper;
         }
 
         public IActionResult Index()
         {
-            return View();
+            var discussions = _context.Discussions.Include(d => d.Author).ToList();
+
+            var discussionsView = _mapper.Map<List<DiscussionViewModel>>(discussions);
+
+            return View(discussionsView);
         }
 
         public IActionResult Privacy()
