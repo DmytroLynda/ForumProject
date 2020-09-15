@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using ForumProject.Data;
+using ForumProject.Interfaces;
 using ForumProject.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -43,6 +44,8 @@ namespace ForumProject
 
             services.AddAutoMapper(options =>
                 options.AddProfile(new MappingProfile()));
+
+            services.AddScoped<ICreatePostService, CreatePostService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
