@@ -1,0 +1,35 @@
+﻿@using ForumProject.Models.ViewModels
+@using Microsoft.AspNetCore.Identity
+@using ForumProject.Data
+@model ForumProject.Models.ViewModels.DiscussionViewModel
+@inject SignInManager<User> SignInManager
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="container-fluid">
+    <h3>Topic: @Html.Raw(Model.Topic)</h3>
+    
+    @foreach (var message in Model.Messages)
+    {
+        <div>
+            <div class=".col-12">@Html.Raw(message.Author.UserName)</div>
+            <div class="col-12">
+                <p>
+                    @Html.Raw(message.Text)
+                </p>
+            </div>
+        </div>
+    }
+    
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <partial name="_SendMessagePartial", model="@new MessageViewModel()"/>
+    }
+    else
+    {
+        <div>
+            Please, login for leaving messages.
+        </div>
+    }
+</div>
