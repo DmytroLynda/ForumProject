@@ -43,6 +43,8 @@ namespace ForumProject.Models
             var entry = await _context.Discussions.AddAsync(discussion);
             await _context.SaveChangesAsync();
 
+            _logger.LogInformation("New discussion was created: {0}", entry);
+
             return entry.Entity.DiscussionId;
         }
     }

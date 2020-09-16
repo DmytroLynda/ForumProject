@@ -25,6 +25,8 @@ namespace ForumProject.Models.Services
         }
         public async Task<Discussion> GetDiscussionAsync(int id)
         {
+            _logger.LogInformation("Get discussion: {0}", id);
+
             var discussion = await _context.Discussions
                 .Include(d => d.Messages)
                 .ThenInclude(d => d.Author)
@@ -35,6 +37,8 @@ namespace ForumProject.Models.Services
 
         public async Task AddMessageAsync(int discussionId, string message, User user)
         {
+            _logger.LogInformation("Add a new message: {0} to the discussion: {1} by user: {2}", message, discussionId, user.UserName);
+
             var userMessage = new Message()
             {
                 Author = user,

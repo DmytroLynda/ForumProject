@@ -34,8 +34,11 @@ namespace ForumProject.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(int id)
         {
+            _logger.LogInformation("Get discussion with id: {0}", id);
+
             if (!ModelState.IsValid)
             {
+                _logger.LogInformation("Something went wrong. Model state is not valid.");
                 return RedirectToAction("Index", "Home");
             }
 
@@ -43,6 +46,7 @@ namespace ForumProject.Controllers
 
             if (discussion is null)
             {
+                _logger.LogWarning("Discussion with id: {0} does not exist.", id);
                 return RedirectToAction("Index", "Home");
             }
 
@@ -55,10 +59,17 @@ namespace ForumProject.Controllers
         [Authorize]
         public async Task<IActionResult> Index(int id, MessageViewModel message)
         {
+            _logger.LogInformation("User: {0} tries to leave a message: {1} in the discussion: {2}", User.Identity.Name, message.Text, id);
             if (ModelState.IsValid)
             {
                 var user = await _userService.GetUserAsync(User);
                 await _discussionService.AddMessageAsync(id, message.Text, user);
+
+                _logger.LogInformation("Message was saved.");
+            }
+            else
+            {
+                _logger.LogInformation("Validation error, the message was not saved.");
             }
 
             return RedirectToAction("Index", "Discussion", id);

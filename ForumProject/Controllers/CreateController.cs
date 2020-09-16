@@ -30,20 +30,28 @@ namespace ForumProject.Controllers
         [HttpGet]
         public IActionResult CreatePost()
         {
+            _logger.LogInformation("Load the create discussion view.");
+
             return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> CreatePost(CreatePostViewModel post)
         {
+            _logger.LogInformation("User: {0} tries to create a new post", User.Identity.Name);
+
             if (!ModelState.IsValid)
             {
+                _logger.LogInformation("Validation error! {0}", ModelState);
                 return View(post);
             }
 
             var user = await _userService.GetUserAsync(User);
 
             var id = await _createService.CreatePostAsync(post, user);
+
+            _logger.LogInformation("New post with id: {0} was created successfully", id);
+
             return RedirectToAction("Index", "Discussion", new {id = id});
         }
     }

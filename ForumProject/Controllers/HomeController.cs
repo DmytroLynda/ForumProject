@@ -28,6 +28,8 @@ namespace ForumProject.Controllers
 
         public IActionResult Index()
         {
+            _logger.LogInformation("Get the discussions list.");
+
             var discussions = _context.Discussions.Include(d => d.Author).ToList();
 
             var discussionsView = _mapper.Map<List<DiscussionViewModel>>(discussions);
