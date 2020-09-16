@@ -26,6 +26,8 @@ namespace ForumProject.Controllers
             _createService = createService;
             _userService = userService;
         }
+
+        [HttpGet]
         public IActionResult CreatePost()
         {
             return View();
@@ -42,7 +44,7 @@ namespace ForumProject.Controllers
             var user = await _userService.GetUserAsync(User);
 
             var id = await _createService.CreatePostAsync(post, user);
-            return RedirectToAction("Index", "Discussion", id);
+            return RedirectToAction("Index", "Discussion", new {id = id});
         }
     }
 }

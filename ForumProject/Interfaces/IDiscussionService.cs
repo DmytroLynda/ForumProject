@@ -9,7 +9,7 @@ namespace ForumProject.Interfaces
 {
     public interface IDiscussionService
     {
-        Task<DiscussionViewModel> GetDiscussionAsync(int id);
-        Task AddMessageAsync(int id, string message, User user);
+        Task<Discussion> GetDiscussionAsync(int id);
+        Task AddMessageAsync(int discussionId, string message, User user);
     }
 }

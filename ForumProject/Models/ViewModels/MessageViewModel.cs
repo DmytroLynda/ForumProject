@@ -9,11 +9,10 @@ namespace ForumProject.Models.ViewModels
 {
     public class MessageViewModel
     {
-        [Required]
         public User Author { get; set; }
         [Required]
+        [StringLength(5000, MinimumLength = 1)]
         public string Text { get; set; }
-        [Required]
         public DateTime Created { get; set; }
     }
 }

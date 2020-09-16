@@ -7,7 +7,9 @@ using AutoMapper.Configuration;
 using ForumProject.Data;
 using ForumProject.Interfaces;
 using ForumProject.Models.ViewModels;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace ForumProject.Models.Services
@@ -16,20 +18,22 @@ namespace ForumProject.Models.Services
     {
         private readonly ILogger<DiscussionService> _logger;
         private readonly ApplicationDbContext _context;
-        private readonly IMapper _mapper;
-        public DiscussionService(ILogger<DiscussionService> logger, ApplicationDbContext context, IMapper mapper)
+        public DiscussionService(ILogger<DiscussionService> logger, ApplicationDbContext context)
         {
             _logger = logger;
             _context = context;
-            _mapper = mapper;
         }
-        public async Task<DiscussionViewModel> GetDiscussionAsync(int id)
+        public async Task<Discussion> GetDiscussionAsync(int id)
         {
-            var discussion = await _context.Discussions.FindAsync(id);
-            return _mapper.Map<DiscussionViewModel>(discussion);
+            var discussion = await _context.Discussions
+                .Include(d => d.Messages)
+                .ThenInclude(d => d.Author)
+                .Include(d => d.Author)
+                .SingleOrDefaultAsync(x => x.DiscussionId == id);
+            return discussion;
         }
 
-        public async Task AddMessageAsync(int id, string message, User user)
+        public async Task AddMessageAsync(int discussionId, string message, User user)
         {
             var userMessage = new Message()
             {
@@ -38,7 +42,9 @@ namespace ForumProject.Models.Services
                 Created = DateTime.Now
             };
 
-            var discussion = await _context.Discussions.FindAsync(id);
+            var discussion = await _context.Discussions
+                .Include(d => d.Messages)
+                .SingleOrDefaultAsync(d => d.DiscussionId == discussionId);
             discussion.Messages.Add(userMessage);
             await _context.SaveChangesAsync();
         }

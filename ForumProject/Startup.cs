@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using ForumProject.Data;
 using ForumProject.Interfaces;
 using ForumProject.Models;
+using ForumProject.Models.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -46,6 +47,7 @@ namespace ForumProject
                 options.AddProfile(new MappingProfile()));
 
             services.AddScoped<ICreatePostService, CreatePostService>();
+            services.AddScoped<IDiscussionService, DiscussionService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

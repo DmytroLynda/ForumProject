@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using ForumProject.Data;
 using ForumProject.Interfaces;
+using ForumProject.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -16,32 +18,48 @@ namespace ForumProject.Controllers
         private readonly ILogger<DiscussionController> _logger;
         private readonly IDiscussionService _discussionService;
         private readonly UserManager<User> _userService;
+        private readonly IMapper _mapper;
 
-        public DiscussionController(ILogger<DiscussionController> logger, IDiscussionService discussionService, UserManager<User> userService)
+        public DiscussionController(
+            ILogger<DiscussionController> logger, 
+            IDiscussionService discussionService,
+            UserManager<User> userService,
+            IMapper mapper)
         {
             _logger = logger;
             _discussionService = discussionService;
             _userService = userService;
+            _mapper = mapper;
         }
+        [HttpGet]
         public async Task<IActionResult> Index(int id)
         {
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             var discussion = await _discussionService.GetDiscussionAsync(id);
 
             if (discussion is null)
             {
-                View();
+                return RedirectToAction("Index", "Home");
             }
 
-            return View(discussion);
+            var viewModel = _mapper.Map<DiscussionViewModel>(discussion);
+
+            return View(viewModel);
         }
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Index(int id, [FromForm] string message)
+        public async Task<IActionResult> Index(int id, MessageViewModel message)
         {
-            var user = await _userService.GetUserAsync(User);
-
-            await _discussionService.AddMessageAsync(id, message, user);
+            if (ModelState.IsValid)
+            {
+                var user = await _userService.GetUserAsync(User);
+                await _discussionService.AddMessageAsync(id, message.Text, user);
+            }
 
             return RedirectToAction("Index", "Discussion", id);
         }

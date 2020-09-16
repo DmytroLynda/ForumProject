@@ -33,7 +33,7 @@ namespace ForumProject.Models
             {
                 Author = creator,
                 Topic = post.Topic,
-                Created = DateTime.Now,
+                Created = DateTime.Now, 
                 Messages = new List<Message>()
                 {
                     message
