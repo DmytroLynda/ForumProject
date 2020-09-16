@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using AutoMapper.Configuration;
 using ForumProject.Data;
 using ForumProject.Interfaces;
 using ForumProject.Models.ViewModels;
-using Microsoft.CodeAnalysis.CodeActions;
 using Microsoft.Extensions.Logging;
 
-namespace ForumProject.Models
+namespace ForumProject.Models.Services
 {
     public class CreatePostService : ICreatePostService
     {
@@ -22,19 +20,19 @@ namespace ForumProject.Models
         }
         public async Task<int> CreatePostAsync(CreatePostViewModel post, User creator)
         {
-            var message = new Message()
+            var message = new Message
             {
                 Author = creator,
                 Text = post.Message,
                 Created = DateTime.Now
             };
 
-            var discussion = new Discussion()
+            var discussion = new Discussion
             {
                 Author = creator,
                 Topic = post.Topic,
                 Created = DateTime.Now, 
-                Messages = new List<Message>()
+                Messages = new List<Message>
                 {
                     message
                 }

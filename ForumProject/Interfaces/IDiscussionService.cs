@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using ForumProject.Data;
-using ForumProject.Models.ViewModels;
 
 namespace ForumProject.Interfaces
 {

@@ -1,14 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
-using AutoMapper.Configuration;
 using ForumProject.Data;
 using ForumProject.Interfaces;
-using ForumProject.Models.ViewModels;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -39,7 +32,7 @@ namespace ForumProject.Models.Services
         {
             _logger.LogInformation("Add a new message: {0} to the discussion: {1} by user: {2}", message, discussionId, user.UserName);
 
-            var userMessage = new Message()
+            var userMessage = new Message
             {
                 Author = user,
                 Text = message,

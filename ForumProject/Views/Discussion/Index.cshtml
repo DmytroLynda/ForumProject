@@ -24,7 +24,7 @@
     
     @if (SignInManager.IsSignedIn(User))
     {
-        @Html.Partial("_SendMessagePartial", new MessageViewModel())
+        <partial name="_SendMessagePartial", model="@new MessageViewModel()"/>
     }
     else
     {

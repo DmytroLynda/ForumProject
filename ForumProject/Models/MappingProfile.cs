@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using ForumProject.Data;
 using ForumProject.Models.ViewModels;
-using Microsoft.AspNetCore.Session;
 
 namespace ForumProject.Models
 {

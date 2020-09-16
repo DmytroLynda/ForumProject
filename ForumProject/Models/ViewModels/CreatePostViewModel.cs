@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace ForumProject.Models.ViewModels
 {
@@ -14,7 +10,7 @@ namespace ForumProject.Models.ViewModels
         public string Topic { get; set; }
         [Required]
         [Display(Name = "First message:")]
-        [MaxLength()]
+        [MaxLength(5000)]
         public string Message { get; set; }
     }
 }
